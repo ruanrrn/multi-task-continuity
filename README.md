@@ -18,6 +18,20 @@ It combines three behaviors into one operational workflow:
 
 This is the umbrella skill for agents that need to behave like competent operators under real chat conditions.
 
+## Works independently
+
+`multi-task-continuity` is a complete skill, not a meta-readme that assumes the other repos are installed.
+
+Use this repo by itself when you want the full operating model in one package:
+
+- task triage and prioritization
+- safe parallel execution
+- continuity-file maintenance
+- restart-safe recovery
+- staged progress reporting
+
+The smaller repos remain useful as focused components, but this umbrella skill does not depend on them to make sense.
+
 ## What the skill teaches
 
 The skill tells the agent to:
@@ -89,7 +103,38 @@ Tell the user:
 - rebuild the remaining queue from `TODO.md`
 - clear stale fallback state once recovery succeeds
 
-## Example
+## Example scenarios
+
+### Scenario 1: mixed short and long work
+
+User sends:
+
+- "Fix the config bug"
+- "Also summarize this log"
+- "And start a PR review"
+
+A good agent should:
+
+1. inspect whether the config bug is a blocker
+2. launch the PR review as a background lane if safe
+3. summarize the log while the longer lane runs
+4. write the current queue to `TODO.md`
+5. report the config result immediately when it lands
+
+### Scenario 2: urgent interruption
+
+User sends ongoing work, then adds:
+
+- "Drop that for now, production is failing"
+
+A good agent should:
+
+1. re-rank the queue immediately
+2. rewrite `TODO.md` so the production issue becomes the main active lane
+3. rewrite `memory/active-task.md` so restart recovery points at the production issue
+4. tell the user what changed and what is running now
+
+### Scenario 3: restart in the middle of active work
 
 User sends:
 
@@ -103,21 +148,17 @@ A good agent should:
 2. launch the PR review in a background lane if safe
 3. write the current chat queue to `TODO.md`
 4. write the deploy lane to `memory/active-task.md` if it is the top task
-5. report the deploy result as soon as it lands
+5. if a restart is planned, schedule the fallback nudge and record its `jobId`
 6. after restart, resume the deploy lane first and then continue the review lane
 
-## Relationship to smaller skills
+## Related skills
 
-This umbrella skill replaces the need to manually compose several narrower behaviors every time.
+These are related, not required:
 
-Related building blocks:
+- `task-orchestrator`: focused scheduling and prioritization skill — <https://github.com/ruanrrn/task-orchestrator>
+- `task-state-sync`: focused continuity-file maintenance skill — <https://github.com/ruanrrn/task-state-sync>
 
-- `task-orchestrator`: <https://github.com/ruanrrn/task-orchestrator>
-- `task-state-sync`: <https://github.com/ruanrrn/task-state-sync>
-- `todo-continuity`: workspace/local continuity pattern
-- `restart-continuity`: workspace/local restart recovery pattern
-
-If you only need one narrow capability, use the smaller skill. If you need the whole operating model, use this one.
+Use this umbrella repo when you want the whole operating model in one place.
 
 ## What you get
 
@@ -148,7 +189,7 @@ multi-task-continuity/
 - Regenerate `dist/multi-task-continuity.skill` after each material skill change
 - Keep the repo focused on the umbrella workflow only
 - Keep the README examples aligned with the actual workflow in `SKILL.md`
-- Update links to companion skills when those repos change
+- Update links to related skills when those repos change
 
 ## Repository
 
