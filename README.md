@@ -7,6 +7,9 @@ English | [简体中文](README.zh-CN.md)
 ![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-283618?style=flat-square)
 ![Focus-Umbrella Workflow](https://img.shields.io/badge/Focus-Umbrella%20Workflow-DDA15E?style=flat-square&labelColor=283618)
 ![Works-Standalone](https://img.shields.io/badge/Works-Standalone-FEFAE0?style=flat-square&labelColor=606C38)
+![Artifact-.skill Included](https://img.shields.io/badge/Artifact-.skill%20Included-DDE5B6?style=flat-square&labelColor=606C38)
+![README-Bilingual](https://img.shields.io/badge/README-Bilingual-FEFAE0?style=flat-square&labelColor=BC6C25)
+![License-MIT](https://img.shields.io/badge/License-MIT-FEFAE0?style=flat-square&labelColor=283618)
 
 An OpenClaw skill for running multiple user requests as one coordinated, restart-safe workflow instead of a chat-shaped pileup.
 
@@ -180,6 +183,11 @@ Suggested social preview asset: `assets/social-preview.svg`
 Suggested one-line copy:
 
 > One workflow for orchestration, state sync, and restart-safe recovery.
+
+GitHub note:
+
+- The current `gh` CLI and GraphQL `UpdateRepositoryInput` do not expose a writable custom social preview field.
+- To use this image as the repository social preview, upload `assets/social-preview.svg` manually in the repo settings UI.
 
 ## What you get
 
