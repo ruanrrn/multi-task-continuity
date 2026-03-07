@@ -1,0 +1,15 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="640" fill="#F5EFE6"/>
+  <rect x="48" y="48" width="1184" height="544" rx="28" fill="#283618"/>
+  <rect x="84" y="84" width="230" height="40" rx="20" fill="#BC6C25"/>
+  <text x="106" y="110" fill="#FEFAE0" font-family="Georgia, serif" font-size="24" font-weight="700">OpenClaw Skill</text>
+  <text x="84" y="218" fill="#FEFAE0" font-family="Georgia, serif" font-size="72" font-weight="700">Multi-Task</text>
+  <text x="84" y="292" fill="#DDA15E" font-family="Georgia, serif" font-size="72" font-weight="700">Continuity</text>
+  <text x="84" y="356" fill="#DDE5B6" font-family="Arial, sans-serif" font-size="30">One workflow for orchestration, state sync, and restart-safe recovery.</text>
+  <text x="84" y="416" fill="#FEFAE0" font-family="Arial, sans-serif" font-size="26">When chat becomes a moving system, this keeps the system from eating itself.</text>
+  <circle cx="1000" cy="180" r="64" fill="#BC6C25"/>
+  <circle cx="1120" cy="260" r="96" fill="#606C38"/>
+  <circle cx="960" cy="360" r="84" fill="#DDA15E"/>
+  <circle cx="1125" cy="410" r="52" fill="#FEFAE0"/>
+  <path d="M900 470C940 430 1005 420 1060 448C1115 476 1170 486 1215 450" stroke="#DDE5B6" stroke-width="12" stroke-linecap="round"/>
+</svg>

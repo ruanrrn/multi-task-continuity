@@ -2,7 +2,18 @@
 
 English | [简体中文](README.zh-CN.md)
 
+![Multi-Task Continuity banner](assets/social-preview.svg)
+
+![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-283618?style=flat-square)
+![Focus-Umbrella Workflow](https://img.shields.io/badge/Focus-Umbrella%20Workflow-DDA15E?style=flat-square&labelColor=283618)
+![Works-Standalone](https://img.shields.io/badge/Works-Standalone-FEFAE0?style=flat-square&labelColor=606C38)
+
 An OpenClaw skill for running multiple user requests as one coordinated, restart-safe workflow instead of a chat-shaped pileup.
+
+## Quick pitch
+
+One workflow for orchestration, state sync, and restart-safe recovery.
+When chat becomes a moving system, this keeps the system from eating itself.
 
 ## Why this exists
 
@@ -162,6 +173,14 @@ These are related, not required:
 
 Use this umbrella repo when you want the whole operating model in one place.
 
+## Social preview
+
+Suggested social preview asset: `assets/social-preview.svg`
+
+Suggested one-line copy:
+
+> One workflow for orchestration, state sync, and restart-safe recovery.
+
 ## What you get
 
 - `multi-task-continuity/` - the skill source
@@ -180,6 +199,9 @@ Use either path:
 multi-task-continuity/
 ├── LICENSE
 ├── README.md
+├── README.zh-CN.md
+├── assets/
+│   └── social-preview.svg
 ├── multi-task-continuity/
 │   └── SKILL.md
 └── dist/
