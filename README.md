@@ -1,5 +1,7 @@
 # Multi-Task Continuity
 
+English | [简体中文](README.zh-CN.md)
+
 An OpenClaw skill for running multiple user requests as one coordinated, restart-safe workflow instead of a chat-shaped pileup.
 
 ## Why this exists
