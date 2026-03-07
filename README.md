@@ -216,6 +216,10 @@ multi-task-continuity/
     └── multi-task-continuity.skill
 ```
 
+## Contributing
+
+See `CONTRIBUTING.md` for contribution scope, PR expectations, and how to keep this repo coherent as a standalone umbrella workflow.
+
 ## Release hygiene
 
 - Regenerate `dist/multi-task-continuity.skill` after each material skill change
