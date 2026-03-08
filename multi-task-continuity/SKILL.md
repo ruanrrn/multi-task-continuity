@@ -5,11 +5,15 @@ description: "Run multi-request work as one coherent, restart-safe workflow. Use
 
 # Multi-Task Continuity
 
-Treat multiple user requests as one living workflow, not as a pile of unrelated chat turns. This skill bundles orchestration, continuity, and state sync into one operating model.
+Treat multiple user requests as one living workflow, not as a pile of unrelated chat turns. This skill bundles orchestration, continuity, and state sync into one recommended operating model.
 
 ## What this skill owns
 
-Use this skill when the agent must do all of the following together:
+Use this skill when the agent would otherwise need to combine several narrower continuity skills by hand and the whole combined workflow matters more than keeping every lane separate.
+
+It is a convenience bundle, not a required foundation.
+
+Use it when the agent must do all of the following together:
 
 - decide task order and safe parallelism
 - keep staged progress visible to the user
@@ -17,7 +21,7 @@ Use this skill when the agent must do all of the following together:
 - maintain the top resume-first task in `memory/active-task.md`
 - survive restarts without losing the plot
 
-If you only need one narrow behavior, the smaller companion skills may be enough. Use this umbrella skill when the whole system matters.
+If you only need one narrow behavior, use the smaller companion skills directly. Reach for this bundle when you want the combined behavior with less composition overhead, not because the smaller repos are insufficient.
 
 ## Unified operating model
 

@@ -5,7 +5,7 @@ English | [简体中文](README.zh-CN.md)
 ![Multi-Task Continuity banner](assets/social-preview.svg)
 
 ![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-283618?style=flat-square)
-![Focus-Umbrella Workflow](https://img.shields.io/badge/Focus-Umbrella%20Workflow-DDA15E?style=flat-square&labelColor=283618)
+![Focus-Recommended Bundle](https://img.shields.io/badge/Focus-Recommended%20Bundle-DDA15E?style=flat-square&labelColor=283618)
 ![Works-Standalone](https://img.shields.io/badge/Works-Standalone-FEFAE0?style=flat-square&labelColor=606C38)
 ![Artifact-.skill Included](https://img.shields.io/badge/Artifact-.skill%20Included-DDE5B6?style=flat-square&labelColor=606C38)
 ![README-Bilingual](https://img.shields.io/badge/README-Bilingual-FEFAE0?style=flat-square&labelColor=BC6C25)
@@ -26,19 +26,19 @@ One skill says how to prioritize work. Another says how to survive restarts. Ano
 
 `multi-task-continuity` closes that gap.
 
-It combines three behaviors into one operational workflow:
+It combines three behaviors into one recommended workflow:
 
 - orchestrate multiple incoming tasks intelligently
 - persist the real state as priorities and blockers change
 - resume the correct top task after a restart, then rebuild the broader queue
 
-This is the umbrella skill for agents that need to behave like competent operators under real chat conditions.
+Think of it as a convenience bundle for agents that need to behave like competent operators under real chat conditions, not as a mandatory base layer.
 
 ## Works independently
 
 `multi-task-continuity` is a complete skill, not a meta-readme that assumes the other repos are installed.
 
-Use this repo by itself when you want the full operating model in one package:
+Use this repo by itself when you want the full operating model in one package and do not want to compose the smaller lanes manually:
 
 - task triage and prioritization
 - safe parallel execution
@@ -46,7 +46,7 @@ Use this repo by itself when you want the full operating model in one package:
 - restart-safe recovery
 - staged progress reporting
 
-The smaller repos remain useful as focused components, but this umbrella skill does not depend on them to make sense.
+The smaller repos remain first-class choices. This bundle exists to lower coordination overhead, not to replace them.
 
 ## What the skill teaches
 
@@ -174,7 +174,7 @@ These are related, not required:
 - `task-orchestrator`: focused scheduling and prioritization skill — <https://github.com/ruanrrn/task-orchestrator>
 - `task-state-sync`: focused continuity-file maintenance skill — <https://github.com/ruanrrn/task-state-sync>
 
-Use this umbrella repo when you want the whole operating model in one place.
+Use this bundle when you want the whole operating model in one place without hand-assembling the smaller lanes.
 
 ## Social preview
 
