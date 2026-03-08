@@ -5,176 +5,130 @@ English | [简体中文](README.zh-CN.md)
 ![Multi-Task Continuity banner](assets/social-preview.svg)
 
 ![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-283618?style=flat-square)
-![Focus-Recommended Bundle](https://img.shields.io/badge/Focus-Recommended%20Bundle-DDA15E?style=flat-square&labelColor=283618)
+![Focus-Restart--Safe Multi--Task Workflow](https://img.shields.io/badge/Focus-Restart--Safe%20Multi--Task%20Workflow-DDA15E?style=flat-square&labelColor=283618)
 ![Works-Standalone](https://img.shields.io/badge/Works-Standalone-FEFAE0?style=flat-square&labelColor=606C38)
 ![Artifact-.skill Included](https://img.shields.io/badge/Artifact-.skill%20Included-DDE5B6?style=flat-square&labelColor=606C38)
 ![README-Bilingual](https://img.shields.io/badge/README-Bilingual-FEFAE0?style=flat-square&labelColor=BC6C25)
 ![License-MIT](https://img.shields.io/badge/License-MIT-FEFAE0?style=flat-square&labelColor=283618)
 
-An OpenClaw skill for running multiple user requests as one coordinated, restart-safe workflow instead of a chat-shaped pileup.
+Coordinate multiple user requests as one restart-safe operating workflow for OpenClaw agents.
 
-## Quick pitch
+## Overview
 
-One workflow for orchestration, state sync, and restart-safe recovery.
-When chat becomes a moving system, this keeps the system from eating itself.
+`multi-task-continuity` is a standalone OpenClaw skill for agents that need to handle more than one active request without losing task order, user visibility, or restart recovery.
+
+It combines three lanes that often fail when managed informally:
+
+- task orchestration across concurrent or interrupted requests
+- continuity-file maintenance for in-flight work
+- resume-first recovery after a restart or session reset
+
+The goal is narrow and operational: keep the agent's active work coherent when chat stops being a single linear task.
 
 ## Why this exists
 
-Most agents can either do multitasking or do continuity, but not both at the same time without turning state into compost.
+Multi-request work usually breaks at the boundaries between otherwise reasonable behaviors.
 
-One skill says how to prioritize work. Another says how to survive restarts. Another says how to keep `TODO.md` and `memory/active-task.md` from drifting apart. Individually, each piece helps. In practice, the real failure mode happens in the gaps between them: the agent starts parallel work, forgets to persist the active lane, restarts mid-flight, and comes back speaking confidently about the wrong task.
+An agent may prioritize well but fail to persist the current lane. It may write `TODO.md` but not keep `memory/active-task.md` aligned. It may survive a restart in theory but come back speaking about the wrong task in practice.
 
-`multi-task-continuity` closes that gap.
+`multi-task-continuity` exists to close that gap. It defines one working model for triage, persistence, staged progress updates, and restart recovery so those behaviors reinforce each other instead of drifting apart.
 
-It combines three behaviors into one recommended workflow:
+## Scope
 
-- orchestrate multiple incoming tasks intelligently
-- persist the real state as priorities and blockers change
-- resume the correct top task after a restart, then rebuild the broader queue
+Use this repo when the job requires the combined workflow.
 
-Think of it as a convenience bundle for agents that need to behave like competent operators under real chat conditions, not as a mandatory base layer.
+Good fit:
 
-## Works independently
+- users send multiple tasks across separate messages
+- some work is long-running, parallelizable, or blocker-sensitive
+- priorities may change while work is already in flight
+- the active plan must survive restarts or session resets
+- `TODO.md` and `memory/active-task.md` must stay aligned as state changes
 
-`multi-task-continuity` is a complete skill, not a meta-readme that assumes the other repos are installed.
+Not a fit:
 
-Use this repo by itself when you want the full operating model in one package and do not want to compose the smaller lanes manually:
+- trivial one-shot requests
+- purely synchronous single-step work
+- narrow fixes that only touch one continuity file
+- cases where the smaller companion skills are sufficient on their own
 
-- task triage and prioritization
-- safe parallel execution
-- continuity-file maintenance
-- restart-safe recovery
-- staged progress reporting
+This repository is an umbrella workflow skill, not a mandatory base layer for every agent.
 
-The smaller repos remain first-class choices. This bundle exists to lower coordination overhead, not to replace them.
+## What the skill covers
 
-## What the skill teaches
+The skill instructs the agent to run multi-request work as one controlled workflow:
 
-The skill tells the agent to:
+- split incoming messages into discrete tasks instead of treating chat as FIFO
+- choose a safe execution order and use parallel lanes when the work truly allows it
+- keep the main thread focused on orchestration, user communication, and decisions
+- persist the per-chat unfinished queue in `TODO.md`
+- persist the single resume-first lane in `memory/active-task.md`
+- update both continuity files whenever blockers, priorities, important IDs, or next steps change materially
+- send staged progress updates while work is in flight
+- resume the correct top task first after restart, then rebuild the broader queue
 
-- split incoming requests into real tasks instead of treating chat as FIFO
-- choose safe parallelism and launch long-running valuable work early
-- keep the main thread on orchestration and user communication
-- write per-chat unfinished state to `TODO.md`
-- write the top resume-first lane to `memory/active-task.md`
-- schedule restart fallbacks when intentional restarts would otherwise risk dropping work
-- send staged progress updates instead of waiting for a grand finale
-- repair continuity state before continuing if the files drift apart
+## Workflow summary
+
+A normal pass through this workflow has five phases:
+
+1. Build the task map: identify goals, urgency, dependencies, conflicts, runtime, and safe parallelism.
+2. Choose the active lanes: start unblockers and urgent work first, then launch worthwhile long-running work early.
+3. Persist the truth: write the queue to `TODO.md` and the top resume-first task to `memory/active-task.md`.
+4. Report progress: tell the user what finished, what is still running, what is blocked, and what changed.
+5. Recover after restart: resume from `memory/active-task.md` first, then reconstruct the remaining queue from `TODO.md`.
 
 ## When to use it
 
-Use `multi-task-continuity` when:
+Reach for `multi-task-continuity` when the risk is not the individual task itself, but the coordination overhead around several tasks.
 
-- a user sends multiple tasks across separate messages
-- some work is long-running, parallelizable, or blocker-sensitive
-- priorities may change during execution
-- the active plan must survive restarts or session resets
-- `TODO.md` and `memory/active-task.md` need to stay aligned throughout the work
+Typical triggers:
 
-Do not use it for trivial one-shot tasks. That would be like bringing air traffic control to a bicycle ride.
+- "Handle these three requests in parallel and keep me updated."
+- "Do the urgent fix first, but do not lose the rest of the queue."
+- "If a restart happens, resume the right task and tell me what you picked back up."
+- "Keep `TODO.md` and `memory/active-task.md` accurate while priorities shift."
 
-## Workflow overview
+## Representative outcomes
 
-### 1. Build the task map
+### Mixed short and long work
 
-Split the incoming requests into discrete tasks and capture:
+A user asks for a bug fix, a log summary, and a PR review in quick succession.
 
-- goal
-- urgency
-- dependencies
-- conflicts
-- likely runtime
-- parallel safety
-- expected user-visible output
+A good agent should identify the blocker-sensitive task, start any safe background lane early, use waiting time for shorter work, persist the queue, and report partial results as they land.
 
-### 2. Choose the active lanes
+### Urgent interruption
 
-Default ordering:
+A production issue arrives while other work is already in progress.
 
-1. unblockers and urgent work
-2. long-running independent work worth starting early
-3. quick wins that fit into wait windows
-4. cleanup and secondary polish
+A good agent should immediately re-rank the queue, rewrite both continuity files to reflect the new top task, and explain the priority change before continuing.
 
-### 3. Persist the truth
+### Restart during active work
 
-- write the per-chat queue into `TODO.md`
-- write the single resume-first task into `memory/active-task.md`
-- update both when priorities, blockers, IDs, or next steps change materially
+The user wants an active fix to survive a restart while secondary work keeps moving.
 
-### 4. Report progress
+A good agent should keep the top lane explicit in `memory/active-task.md`, preserve the broader queue in `TODO.md`, and resume the correct task first after restart.
 
-Tell the user:
+## Related skill repos
 
-- what finished
-- what is still running
-- what is blocked
-- what changed in priority
-- what happens next
+These repositories are related examples, not required dependencies:
 
-### 5. Recover after restart
+- `task-orchestrator`: focused orchestration and prioritization lane - <https://github.com/ruanrrn/task-orchestrator>
+- `task-state-sync`: focused continuity-file maintenance lane - <https://github.com/ruanrrn/task-state-sync>
 
-- resume the top task from `memory/active-task.md`
-- send the queued restart update in the first substantive reply
-- rebuild the remaining queue from `TODO.md`
-- clear stale fallback state once recovery succeeds
+Use this repository when you want the combined operating model in one place instead of composing the narrower lanes manually.
 
-## Example scenarios
+## Install
 
-### Scenario 1: mixed short and long work
+Use either path:
 
-User sends:
+1. Import `dist/multi-task-continuity.skill` into an OpenClaw environment.
+2. Copy `multi-task-continuity/` into your skills directory if you want the editable source.
 
-- "Fix the config bug"
-- "Also summarize this log"
-- "And start a PR review"
+## What this repo contains
 
-A good agent should:
-
-1. inspect whether the config bug is a blocker
-2. launch the PR review as a background lane if safe
-3. summarize the log while the longer lane runs
-4. write the current queue to `TODO.md`
-5. report the config result immediately when it lands
-
-### Scenario 2: urgent interruption
-
-User sends ongoing work, then adds:
-
-- "Drop that for now, production is failing"
-
-A good agent should:
-
-1. re-rank the queue immediately
-2. rewrite `TODO.md` so the production issue becomes the main active lane
-3. rewrite `memory/active-task.md` so restart recovery points at the production issue
-4. tell the user what changed and what is running now
-
-### Scenario 3: restart in the middle of active work
-
-User sends:
-
-- "Fix the deploy script"
-- "Review this PR too"
-- "And keep me posted if a restart interrupts anything"
-
-A good agent should:
-
-1. inspect the deploy issue first if it is blocker-sensitive
-2. launch the PR review in a background lane if safe
-3. write the current chat queue to `TODO.md`
-4. write the deploy lane to `memory/active-task.md` if it is the top task
-5. if a restart is planned, schedule the fallback nudge and record its `jobId`
-6. after restart, resume the deploy lane first and then continue the review lane
-
-## Related skills
-
-These are related, not required:
-
-- `task-orchestrator`: focused scheduling and prioritization skill — <https://github.com/ruanrrn/task-orchestrator>
-- `task-state-sync`: focused continuity-file maintenance skill — <https://github.com/ruanrrn/task-state-sync>
-
-Use this bundle when you want the whole operating model in one place without hand-assembling the smaller lanes.
+- `multi-task-continuity/` - the skill source
+- `dist/multi-task-continuity.skill` - the packaged artifact ready to import
+- `assets/social-preview.svg` - the repository banner and suggested social-preview asset
 
 ## Social preview
 
@@ -189,18 +143,6 @@ GitHub note:
 - The current `gh` CLI and GraphQL `UpdateRepositoryInput` do not expose a writable custom social preview field.
 - To use this image as the repository social preview, upload `assets/social-preview.svg` manually in the repo settings UI.
 
-## What you get
-
-- `multi-task-continuity/` - the skill source
-- `dist/multi-task-continuity.skill` - packaged artifact ready to import
-
-## Install
-
-Use either path:
-
-1. Import `dist/multi-task-continuity.skill` into an OpenClaw environment.
-2. Copy `multi-task-continuity/` into your skills directory if you want the editable source.
-
 ## Repository layout
 
 ```text
@@ -208,6 +150,7 @@ multi-task-continuity/
 ├── LICENSE
 ├── README.md
 ├── README.zh-CN.md
+├── CONTRIBUTING.md
 ├── assets/
 │   └── social-preview.svg
 ├── multi-task-continuity/
@@ -218,14 +161,14 @@ multi-task-continuity/
 
 ## Contributing
 
-See `CONTRIBUTING.md` for contribution scope, PR expectations, and how to keep this repo coherent as a standalone umbrella workflow.
+See `CONTRIBUTING.md` for contribution scope, PR expectations, and the boundary that keeps this repo focused on multi-request continuity rather than general agent workflow design.
 
 ## Release hygiene
 
-- Regenerate `dist/multi-task-continuity.skill` after each material skill change
-- Keep the repo focused on the umbrella workflow only
-- Keep the README examples aligned with the actual workflow in `SKILL.md`
-- Update links to related skills when those repos change
+- regenerate `dist/multi-task-continuity.skill` after each material skill change
+- keep `README.md`, `README.zh-CN.md`, and `multi-task-continuity/SKILL.md` aligned
+- keep the repository scoped to the combined workflow only
+- update related-repo links if the companion repos move or change names
 
 ## Repository
 
