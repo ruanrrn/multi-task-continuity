@@ -1,8 +1,24 @@
 # Multi-Task Continuity
 
-一个给 OpenClaw 用的 skill：把多条用户请求当成一条可持续、可恢复、可汇报的工作流来处理，而不是把聊天记录当流水线硬排队。
+[English](README.md) | 简体中文
 
-## 这东西为什么存在
+![Multi-Task Continuity banner](assets/social-preview.svg)
+
+![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-283618?style=flat-square)
+![Focus-Recommended Bundle](https://img.shields.io/badge/Focus-Recommended%20Bundle-DDA15E?style=flat-square&labelColor=283618)
+![Works-Standalone](https://img.shields.io/badge/Works-Standalone-FEFAE0?style=flat-square&labelColor=606C38)
+![Artifact-.skill Included](https://img.shields.io/badge/Artifact-.skill%20Included-DDE5B6?style=flat-square&labelColor=606C38)
+![README-Bilingual](https://img.shields.io/badge/README-Bilingual-FEFAE0?style=flat-square&labelColor=BC6C25)
+![License-MIT](https://img.shields.io/badge/License-MIT-FEFAE0?style=flat-square&labelColor=283618)
+
+把多条用户请求当成一条可持续、可恢复、可汇报的工作流来跑，而不是把聊天记录当成一条会自燃的 FIFO 队列。
+
+## Quick pitch
+
+一套工作流，同时处理任务编排、状态落盘和重启恢复。
+当聊天本身已经变成一个会移动的系统时，这个 skill 负责让系统别把自己吃掉。
+
+## Why this exists
 
 很多代理在“多任务编排”和“跨重启连续性”这两件事上，通常只能做好一半。
 
@@ -13,12 +29,26 @@
 它把三件事收成一个统一工作流：
 
 - 智能编排多个任务
-- 在优先级、阻塞、下一步变化时落盘真实状态
+- 在优先级、阻塞和下一步变化时把真实状态落盘
 - 重启后先恢复正确的主任务，再重建剩余任务队列
 
-如果你希望代理在真实聊天场景里像个靠谱的操盘手，而不是一个只会按时间戳排队的客服脚本，这个 skill 就是干这个的。
+把它看成一个推荐总包更合适，不是某种强制基础层。
 
-## 它能教会代理什么
+## Works independently
+
+`multi-task-continuity` 是一个完整 skill，不是那种默认你还得装一堆别的 repo 才能看懂的 meta README。
+
+如果你想一次拿到完整工作模型，而不是手动把几个窄 skill 拼起来，就可以单独用这个仓：
+
+- 任务拆分与优先级判断
+- 安全并行执行
+- 连续性文件维护
+- 重启后恢复主任务
+- 分阶段进度汇报
+
+那些更小的 repo 仍然是正经选项。这个总包的意义是降低协调成本，不是把它们判成下岗工人。
+
+## What the skill teaches
 
 这个 skill 会要求代理：
 
@@ -31,19 +61,19 @@
 - 分阶段汇报，而不是憋到最后来个大总结
 - 如果连续性文件互相打架，先修状态，再继续工作
 
-## 什么时候用
+## When to use it
 
 适合这些场景：
 
 - 用户连续发来多个任务
-- 有些任务很长，有些任务很短
+- 有些任务很长，有些任务很短，或者可以并行
 - 任务之间有依赖、阻塞或优先级变化
-- 任务需要跨 session reset 或 gateway restart 保持连续
+- 活跃计划需要跨 session reset 或 gateway restart 保持连续
 - 你希望 `TODO.md` 和 `memory/active-task.md` 始终对得上
 
 如果只是一次性的小活，就别上这个。那属于开着塔台指挥自行车。
 
-## 工作流概览
+## Workflow overview
 
 ### 1. 先建任务地图
 
@@ -70,7 +100,7 @@
 
 - 把当前聊天的任务队列写进 `TODO.md`
 - 把“如果现在重启，回来第一件该干的事”写进 `memory/active-task.md`
-- 当优先级、阻塞、重要 ID、下一步发生实质变化时，同步更新
+- 当优先级、阻塞、重要 ID、下一步发生实质变化时，同步更新这两个文件
 
 ### 4. 对用户做阶段性汇报
 
@@ -89,7 +119,7 @@
 - 再从 `TODO.md` 重建剩余队列
 - 恢复确认后清掉过期 fallback 状态
 
-## 示例场景
+## Example scenarios
 
 ### 场景 1：长短任务混跑
 
@@ -118,7 +148,7 @@
 1. 立刻重排优先级
 2. 重写 `TODO.md`，让生产事故变成主车道
 3. 重写 `memory/active-task.md`，确保重启恢复也会先救火
-4. 明确告诉用户：当前优先级已经变化，现在在处理什么
+4. 明确告诉用户当前优先级已经变化，现在在处理什么
 
 ### 场景 3：重启打断进行中的工作
 
@@ -137,45 +167,67 @@
 5. 如果计划内重启，安排 fallback 并记录 `jobId`
 6. 重启后先恢复 deploy，再继续 review
 
-## 和小技能的关系
+## Related skills
 
-这个仓是总包，不代表其他仓没用。
+这些是相关项，不是依赖项：
 
-相关但非必需的技能：
-
-- `task-orchestrator`：偏任务编排与优先级策略  
-  <https://github.com/ruanrrn/task-orchestrator>
-- `task-state-sync`：偏连续性文件维护与状态落盘  
-  <https://github.com/ruanrrn/task-state-sync>
+- `task-orchestrator`：偏任务编排与优先级策略 — <https://github.com/ruanrrn/task-orchestrator>
+- `task-state-sync`：偏连续性文件维护与状态落盘 — <https://github.com/ruanrrn/task-state-sync>
 
 如果你只想要其中一个窄能力，用小 skill 就够；如果你想要整套工作模型，用这个总 skill。
 
-## 仓库内容
+## Social preview
+
+建议 social preview 资源：`assets/social-preview.svg`
+
+建议一句话文案：
+
+> One workflow for orchestration, state sync, and restart-safe recovery.
+
+GitHub 备注：
+
+- 当前公开的 `gh` CLI 和 GraphQL `UpdateRepositoryInput` 都没有可写的 custom social preview 字段。
+- 如果你要把这张图真正设成仓库 social preview，只能去 GitHub 仓库设置页手动上传 `assets/social-preview.svg`。
+
+## What you get
 
 - `multi-task-continuity/` - skill 源码
 - `dist/multi-task-continuity.skill` - 可直接导入的打包产物
 
-## 安装
+## Install
 
 两种方式都可以：
 
 1. 直接导入 `dist/multi-task-continuity.skill`
 2. 把 `multi-task-continuity/` 复制到你的 skills 目录，按源码方式使用
 
-## 仓库结构
+## Repository layout
 
 ```text
 multi-task-continuity/
 ├── LICENSE
 ├── README.md
 ├── README.zh-CN.md
+├── assets/
+│   └── social-preview.svg
 ├── multi-task-continuity/
 │   └── SKILL.md
 └── dist/
     └── multi-task-continuity.skill
 ```
 
-## 仓库地址
+## Contributing
+
+见 `CONTRIBUTING.md`，里面写了贡献范围、PR 预期，以及怎么让这个仓继续保持为一个完整、可独立理解的总包型 skill 仓。
+
+## Release hygiene
+
+- 每次 skill 有实质改动后，都要重新生成 `dist/multi-task-continuity.skill`
+- 保持仓库只服务于这条总包工作流，不要变成杂项代理习惯回收站
+- README 里的示例要和 `multi-task-continuity/SKILL.md` 里的实际工作流保持一致
+- 相关 skill 仓的链接变了就更新，别让 README 长出死链
+
+## Repository
 
 - GitHub: `https://github.com/ruanrrn/multi-task-continuity`
 - License: MIT

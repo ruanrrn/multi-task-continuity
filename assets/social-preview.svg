@@ -1,15 +1,32 @@
 <svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="1280" height="640" fill="#F5EFE6"/>
   <rect x="48" y="48" width="1184" height="544" rx="28" fill="#283618"/>
-  <rect x="84" y="84" width="230" height="40" rx="20" fill="#BC6C25"/>
-  <text x="106" y="110" fill="#FEFAE0" font-family="Georgia, serif" font-size="24" font-weight="700">OpenClaw Skill</text>
-  <text x="84" y="218" fill="#FEFAE0" font-family="Georgia, serif" font-size="72" font-weight="700">Multi-Task</text>
-  <text x="84" y="292" fill="#DDA15E" font-family="Georgia, serif" font-size="72" font-weight="700">Continuity</text>
-  <text x="84" y="356" fill="#DDE5B6" font-family="Arial, sans-serif" font-size="30">One workflow for orchestration, state sync, and restart-safe recovery.</text>
-  <text x="84" y="416" fill="#FEFAE0" font-family="Arial, sans-serif" font-size="26">When chat becomes a moving system, this keeps the system from eating itself.</text>
-  <circle cx="1000" cy="180" r="64" fill="#BC6C25"/>
-  <circle cx="1120" cy="260" r="96" fill="#606C38"/>
-  <circle cx="960" cy="360" r="84" fill="#DDA15E"/>
-  <circle cx="1125" cy="410" r="52" fill="#FEFAE0"/>
-  <path d="M900 470C940 430 1005 420 1060 448C1115 476 1170 486 1215 450" stroke="#DDE5B6" stroke-width="12" stroke-linecap="round"/>
+  <rect x="88" y="84" width="230" height="40" rx="20" fill="#BC6C25"/>
+  <text x="110" y="110" fill="#FEFAE0" font-family="Georgia, serif" font-size="24" font-weight="700">OpenClaw Skill</text>
+
+  <text x="88" y="218" fill="#FEFAE0" font-family="Georgia, serif" font-size="76" font-weight="700">Multi-Task</text>
+  <text x="88" y="294" fill="#DDA15E" font-family="Georgia, serif" font-size="76" font-weight="700">Continuity</text>
+  <text x="88" y="362" fill="#FEFAE0" font-family="Arial, sans-serif" font-size="32">One workflow for orchestration,</text>
+  <text x="88" y="404" fill="#DDE5B6" font-family="Arial, sans-serif" font-size="32">state sync, and restart-safe recovery.</text>
+  <text x="88" y="462" fill="#FEFAE0" font-family="Arial, sans-serif" font-size="26">When chat becomes a moving system,</text>
+  <text x="88" y="500" fill="#DDE5B6" font-family="Arial, sans-serif" font-size="26">this keeps the system from eating itself.</text>
+
+  <path d="M836 160C888 132 954 128 1014 148C1074 168 1132 212 1172 268" stroke="#BC6C25" stroke-width="10" stroke-linecap="round"/>
+  <path d="M816 454C868 418 940 402 1012 412C1084 422 1144 454 1180 494" stroke="#DDE5B6" stroke-width="10" stroke-linecap="round"/>
+
+  <rect x="822" y="154" width="292" height="92" rx="22" fill="#34471C" stroke="#DDE5B6" stroke-opacity="0.18" stroke-width="4"/>
+  <rect x="854" y="186" width="120" height="12" rx="6" fill="#DDA15E"/>
+  <rect x="854" y="210" width="188" height="10" rx="5" fill="#FEFAE0" fill-opacity="0.92"/>
+
+  <rect x="784" y="274" width="332" height="100" rx="24" fill="#FEFAE0" fill-opacity="0.08" stroke="#FEFAE0" stroke-opacity="0.18" stroke-width="4"/>
+  <rect x="820" y="308" width="148" height="12" rx="6" fill="#FEFAE0"/>
+  <rect x="820" y="332" width="226" height="10" rx="5" fill="#DDE5B6" fill-opacity="0.92"/>
+
+  <rect x="846" y="412" width="270" height="88" rx="22" fill="#BC6C25" fill-opacity="0.20" stroke="#DDA15E" stroke-width="4"/>
+  <rect x="878" y="444" width="112" height="12" rx="6" fill="#DDA15E"/>
+  <rect x="878" y="468" width="172" height="10" rx="5" fill="#FEFAE0" fill-opacity="0.92"/>
+
+  <circle cx="1136" cy="170" r="60" fill="#606C38"/>
+  <circle cx="1162" cy="188" r="24" fill="#DDA15E"/>
+  <circle cx="1150" cy="486" r="54" fill="#FEFAE0" fill-opacity="0.10" stroke="#FEFAE0" stroke-opacity="0.28" stroke-width="4"/>
 </svg>
